@@ -361,3 +361,8 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/BrishApp.FitFileMerger/Results/BrishApp.FitFileMerger-2023-12-04 06.53.45.1383.fit
+/BrishApp.FitFileMerger/Sources/0QZ-backup-Sun Dec 3 05_22_39 2023.fit
+/BrishApp.FitFileMerger/Sources/12959736630_ACTIVITY.fit
+/BrishApp.FitFileMerger/garmin.json
+/BrishApp.FitFileMerger/qz.json
