@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <Folder Include="Results\" />
+    <Folder Include="Sources\" />
   </ItemGroup>
 
 </Project>
