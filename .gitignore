@@ -366,3 +366,4 @@ FodyWeavers.xsd
 /BrishApp.FitFileMerger/Sources/12959736630_ACTIVITY.fit
 /BrishApp.FitFileMerger/garmin.json
 /BrishApp.FitFileMerger/qz.json
+*.fit

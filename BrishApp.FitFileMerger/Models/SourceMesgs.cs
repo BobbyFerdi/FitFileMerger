@@ -16,7 +16,7 @@ internal class SourceMesgs
         ActivityMesgs = new List<ActivityMesg>();
         SessionMesgs = new List<SessionMesg>();
         LapMesgs = new List<LapMesg>();
-        RecordMesgs = new List<RecordMesg>();
+        RecordMesgs = new List<List<Record>>();
         EventMesgs = new List<EventMesg>();
         DeviceInfoMesgs = new List<DeviceInfoMesg>();
         TrainingFileMesgs = new List<TrainingFileMesg>();
@@ -37,7 +37,7 @@ internal class SourceMesgs
     public List<ActivityMesg> ActivityMesgs { get; set; }
     public List<SessionMesg> SessionMesgs { get; set; }
     public List<LapMesg> LapMesgs { get; set; }
-    public List<RecordMesg> RecordMesgs { get; set; }
+    public List<List<Record>> RecordMesgs { get; set; }
     public List<EventMesg> EventMesgs { get; set; }
     public List<DeviceInfoMesg> DeviceInfoMesgs { get; set; }
     public List<TrainingFileMesg> TrainingFileMesgs { get; set; }
