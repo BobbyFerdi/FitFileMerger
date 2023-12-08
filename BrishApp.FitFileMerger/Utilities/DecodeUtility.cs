@@ -21,8 +21,21 @@ internal class DecodeUtility
         {
             var files = Directory.GetFiles("..\\..\\..\\Sources\\", "*.fit");
             var sessionMesgs = new List<List<SessionMesg>>();
+            var orderedFiles = new string[2];
 
             foreach (var file in files)
+            {
+                if (file.ToLower().Contains("activity"))
+                {
+                    orderedFiles[0] = file;
+                }
+                else
+                {
+                    orderedFiles[1] = file;
+                }
+            }
+
+            foreach (var file in orderedFiles)
             {
                 // Attempt to open .FIT file
                 fitSource = new FileStream(file, FileMode.Open);

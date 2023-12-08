@@ -5,7 +5,12 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <ApplicationIcon>BrishApp Logo(1).ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="BrishApp Logo(1).ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Garmin.FIT.Sdk" Version="21.126.0" />
