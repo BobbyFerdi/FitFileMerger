@@ -57,7 +57,6 @@ internal class DecodeUtility
                 decode.Read(fitSource);
 
                 var fitMessages = fitListener.FitMessages;
-                //sessionMesgs.Add(fitMessages.SessionMesgs.ToList());
 
                 if (file.ToLower().Contains("activity"))
                 {
@@ -122,14 +121,6 @@ internal class DecodeUtility
 
     private void OnMesgCustom(object sender, MesgEventArgs e)
     {
-        // TODO - Implement a custom Mesg handler for use with a decoder
-        //switch (e.mesg.Num)
-        //{
-        //    case MesgNum.FileId:
-        //        break;
-        //    default:
-        //        break;
-        //}
     }
 
     private void OnDeveloperFieldDescriptionCustom(object sender, DeveloperFieldDescriptionEventArgs args)

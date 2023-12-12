@@ -186,7 +186,7 @@ internal class EncodeUtility
                 l.SetEventType(lap.GetEventType());
                 l.SetTotalElapsedTime(lap.GetTotalElapsedTime());
                 l.SetTotalTimerTime(lap.GetTotalTimerTime());
-                l.SetTotalCalories(lap.GetTotalCalories());
+                l.SetTotalCalories(Convert.ToUInt16(lapRecords.Max(x => x.GetCalories())));
                 l.SetAvgHeartRate(lap.GetAvgHeartRate());
                 l.SetMaxHeartRate(lap.GetMaxHeartRate());
                 l.SetIntensity(lap.GetIntensity());
@@ -230,7 +230,7 @@ internal class EncodeUtility
                 s.SetAvgSpeed(splitRecords.Average(x => x.GetSpeed()));
                 s.SetStartTime(split.GetStartTime());
                 s.SetEndTime(split.GetEndTime());
-                s.SetTotalCalories(split.GetTotalCalories());
+                s.SetTotalCalories(splitRecords.Max(x => x.GetCalories()));
                 splits.Add(s);
             }
 
@@ -256,7 +256,7 @@ internal class EncodeUtility
                 s.SetAvgSpeed(splitsSum.Average(x => x.GetAvgSpeed()));
                 s.SetAvgHeartRate(sum.GetAvgHeartRate());
                 s.SetMaxHeartRate(sum.GetMaxHeartRate());
-                s.SetTotalCalories(sum.GetTotalCalories());
+                s.SetTotalCalories(Convert.ToUInt16(splitsSum.Max(x => x.GetTotalCalories())));
                 splitCounter += Convert.ToInt32(numSplits);
 
                 splitsSummary.Add(s);
@@ -265,8 +265,9 @@ internal class EncodeUtility
             #endregion Split
 
             var encode = new Encode(ProtocolVersion.V20);
-            var fileName = $"BrishApp.FitFileMerger-{System.DateTime.Now:yyyy-MM-dd HH.mm.ss.ffff}.fit";
-            var fitDest = new FileStream($"..\\..\\..\\Results\\{fileName}", FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
+            var fileName = $"BrishApp.FitFileMerger-{System.DateTime.Now:yyyy-MM-dd~HH.mm.ss.ffff}";
+            var resultName = $"..\\..\\..\\Results\\{fileName}.fit";
+            var fitDest = new FileStream(resultName, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
 
             // Write our header
             encode.Open(fitDest);
@@ -294,11 +295,23 @@ internal class EncodeUtility
             encode.Close();
             fitDest.Close();
 
-            _logger.Information($"Encoded FIT file {fileName}");
+            _logger.Information($"Encoded FIT file {resultName}");
+
+            var proc = new System.Diagnostics.Process();
+            proc.StartInfo.FileName = "..\\..\\..\\ActivityRepairTool.bat";
+            proc.StartInfo.Arguments = resultName;
+            proc.Start();
+
+            Thread.Sleep(5000);
+
+            System.IO.File.Delete(resultName);
+            System.IO.File.Move($"..\\..\\..\\Results\\{fileName}_repaired.fit", resultName);
         }
         catch (Exception e)
         {
-            _logger.Error($"ERROR: {e.Message}.\nInner Exception:\n{e.InnerException})");
+            _logger.Error($"ERROR: {e.Message}.");
+
+            if (e.InnerException != null) _logger.Error($"Inner Exception:\n{e.InnerException}");
 
             throw;
         }
