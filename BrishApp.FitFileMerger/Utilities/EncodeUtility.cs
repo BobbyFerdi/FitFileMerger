@@ -187,7 +187,6 @@ internal class EncodeUtility
             encode.Write(splitsSummary);
             encode.Write(session);
             encode.Write(source.ActivityMesgs);
-            //encode.Write(source.DeveloperDataIdMesgs);
 
             // Update header datasize and file CRC
             encode.Close();

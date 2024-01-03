@@ -22,7 +22,6 @@ internal class SourceMesgs
         TrainingFileMesgs = new List<TrainingFileMesg>();
         SplitMesgs = new List<SplitMesg>();
         SplitSummaryMesgs = new List<SplitSummaryMesg>();
-        DeveloperDataIdMesgs = new List<DeveloperDataIdMesg>();
         WorkoutMesgs = new List<WorkoutMesg>();
         WorkoutStepMesgs = new List<WorkoutStepMesg>();
     }
@@ -43,7 +42,6 @@ internal class SourceMesgs
     public List<TrainingFileMesg> TrainingFileMesgs { get; set; }
     public List<SplitMesg> SplitMesgs { get; set; }
     public List<SplitSummaryMesg> SplitSummaryMesgs { get; set; }
-    public List<DeveloperDataIdMesg> DeveloperDataIdMesgs { get; set; }
     public List<WorkoutMesg> WorkoutMesgs { get; set; }
     public List<WorkoutStepMesg> WorkoutStepMesgs { get; set; }
 }
