@@ -19,7 +19,7 @@ internal class DecodeUtility
 
         try
         {
-            var files = Directory.GetFiles("..\\..\\..\\Sources\\", "*.fit");
+            var files = GenericUtilities.GetFitFiles();
             var sessionMesgs = new List<List<SessionMesg>>();
             var orderedFiles = new string[2];
 
@@ -74,7 +74,7 @@ internal class DecodeUtility
                     sourceMesgs.TrainingFileMesgs.AddRange(fitMessages.TrainingFileMesgs.ToList());
                     sourceMesgs.SplitMesgs.AddRange(fitMessages.SplitMesgs.ToList());
                     sourceMesgs.SplitSummaryMesgs.AddRange(fitMessages.SplitSummaryMesgs.ToList());
-                    sourceMesgs.DeveloperDataIdMesgs.AddRange(fitMessages.DeveloperDataIdMesgs.ToList());
+                    //sourceMesgs.DeveloperDataIdMesgs.AddRange(fitMessages.DeveloperDataIdMesgs.ToList());
                     sourceMesgs.WorkoutMesgs.AddRange(fitMessages.WorkoutMesgs.ToList());
                     sourceMesgs.WorkoutStepMesgs.AddRange(fitMessages.WorkoutStepMesgs.ToList());
                 }

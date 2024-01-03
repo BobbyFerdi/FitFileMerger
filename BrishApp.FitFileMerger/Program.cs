@@ -1,11 +1,4 @@
-﻿/////////////////////////////////////////////////////////////////////////////////////////////
-// Copyright 2023 Garmin International, Inc.
-// Licensed under the Flexible and Interoperable Data Transfer (FIT) Protocol License; you
-// may not use this file except in compliance with the Flexible and Interoperable Data
-// Transfer (FIT) Protocol License.
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-using BrishApp.FitFileMerger.Utilities;
+﻿using BrishApp.FitFileMerger.Utilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;

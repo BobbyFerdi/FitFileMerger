@@ -1,6 +1,7 @@
 ﻿using BrishApp.FitFileMerger.Models;
 using Dynastream.Fit;
 using Serilog;
+using System.IO.Compression;
 
 namespace BrishApp.FitFileMerger.Utilities;
 
@@ -85,81 +86,19 @@ internal class EncodeUtility
             var avgPower = Convert.ToUInt16(totalPower / totalPowerCount);
             var avgSpeed = Convert.ToSingle(totalSpeed / totalSpeedCount);
             var avgCadence = Math.Ceiling(Convert.ToSingle(totalCadence / totalCadenceCount));
-            var session = new SessionMesg
-            {
-                Name = source.SessionMesgs[0].Name,
-                Num = source.SessionMesgs[0].Num,
-                LocalNum = source.SessionMesgs[0].LocalNum
-            };
+            var session = source.SessionMesgs[0];
 
             session.SetAvgCadence((byte)avgCadence);
-            session.SetAvgHeartRate(source.SessionMesgs[0].GetAvgHeartRate());
-            session.SetAvgLapTime(source.SessionMesgs[0].GetAvgLapTime());
             session.SetAvgPower(avgPower);
-            session.SetAvgRespirationRate(source.SessionMesgs[0].GetAvgRespirationRate());
             session.SetAvgSpeed(avgSpeed);
-            session.SetAvgSpo2(source.SessionMesgs[0].GetAvgSpo2());
-            session.SetAvgStress(source.SessionMesgs[0].GetAvgStress());
-            session.SetEnhancedAvgAltitude(source.SessionMesgs[0].GetEnhancedAvgAltitude());
-            session.SetEnhancedAvgRespirationRate(source.SessionMesgs[0].GetEnhancedAvgRespirationRate());
             session.SetEnhancedAvgSpeed(avgSpeed);
-            session.SetEnhancedMaxAltitude(source.SessionMesgs[0].GetEnhancedMaxAltitude());
-            session.SetEnhancedMaxRespirationRate(source.SessionMesgs[0].GetEnhancedMaxRespirationRate());
             session.SetEnhancedMaxSpeed(maxSpeed);
-            session.SetEnhancedMinAltitude(source.SessionMesgs[0].GetEnhancedMinAltitude());
-            session.SetEnhancedMinRespirationRate(source.SessionMesgs[0].GetEnhancedMinRespirationRate());
-            session.SetEvent(source.SessionMesgs[0].GetEvent());
-            session.SetEventGroup(source.SessionMesgs[0].GetEventGroup());
-            session.SetEventType(source.SessionMesgs[0].GetEventType());
-            session.SetFirstLapIndex(source.SessionMesgs[0].GetFirstLapIndex());
-            session.SetMaxAltitude(source.SessionMesgs[1].GetMaxAltitude());
             session.SetMaxCadence((byte)maxCadence);
-            session.SetMaxFractionalCadence(source.SessionMesgs[1].GetMaxFractionalCadence());
-            session.SetMaxHeartRate(source.SessionMesgs[0].GetMaxHeartRate());
             session.SetMaxPower(maxPower);
-            session.SetMaxRespirationRate(source.SessionMesgs[0].GetMaxRespirationRate());
             session.SetMaxSpeed(maxSpeed);
-            session.SetMessageIndex(source.SessionMesgs[0].GetMessageIndex());
-            session.SetMinAltitude(source.SessionMesgs[1].GetMinAltitude());
-            session.SetMinHeartRate(source.SessionMesgs[0].GetMinHeartRate());
-            session.SetMinRespirationRate(source.SessionMesgs[0].GetMinRespirationRate());
-            session.SetNumActiveLengths(source.SessionMesgs[0].GetNumActiveLengths());
-            session.SetNumLaps(source.SessionMesgs[0].GetNumLaps());
-            session.SetNumLengths(source.SessionMesgs[0].GetNumLengths());
-            session.SetO2Toxicity(source.SessionMesgs[0].GetO2Toxicity());
-            session.SetRmssdHrv(source.SessionMesgs[0].GetRmssdHrv());
-            session.SetSdrrHrv(source.SessionMesgs[0].GetSdrrHrv());
-            session.SetSport(source.SessionMesgs[0].GetSport());
-            session.SetSportIndex(source.SessionMesgs[0].GetSportIndex());
-            session.SetSportProfileName(source.SessionMesgs[0].GetSportProfileName());
-            session.SetStandCount(source.SessionMesgs[0].GetStandCount());
-            session.SetStartTime(source.SessionMesgs[0].GetStartTime());
-            session.SetSubSport(source.SessionMesgs[0].GetSubSport());
-            session.SetThresholdPower(source.SessionMesgs[1].GetThresholdPower());
-            session.SetTimestamp(source.SessionMesgs[0].GetTimestamp());
-            session.SetTimeStanding(source.SessionMesgs[1].GetTimeStanding());
-            session.SetTotalAnaerobicTrainingEffect(source.SessionMesgs[0].GetTotalAnaerobicTrainingEffect());
-            session.SetTotalAscent(source.SessionMesgs[1].GetTotalAscent());
             session.SetTotalCalories(source.SessionMesgs[1].GetTotalCalories());
-            session.SetTotalCycles(source.SessionMesgs[0].GetTotalCycles());
             session.SetTotalDescent(source.SessionMesgs[1].GetTotalDescent());
             session.SetTotalDistance(source.SessionMesgs[1].GetTotalDistance());
-            session.SetTotalElapsedTime(source.SessionMesgs[0].GetTotalElapsedTime());
-            session.SetTotalFatCalories(source.SessionMesgs[1].GetTotalFatCalories());
-            session.SetTotalFlow(source.SessionMesgs[0].GetTotalFlow());
-            session.SetTotalFractionalAscent(source.SessionMesgs[0].GetTotalFractionalAscent());
-            session.SetTotalFractionalCycles(source.SessionMesgs[0].GetTotalFractionalCycles());
-            session.SetTotalFractionalDescent(source.SessionMesgs[0].GetTotalFractionalDescent());
-            session.SetTotalGrit(source.SessionMesgs[0].GetTotalGrit());
-            session.SetTotalMovingTime(source.SessionMesgs[0].GetTotalMovingTime());
-            session.SetTotalStrides(source.SessionMesgs[0].GetTotalStrides());
-            session.SetTotalStrokes(source.SessionMesgs[0].GetTotalStrokes());
-            session.SetTotalTimerTime(source.SessionMesgs[0].GetTotalTimerTime());
-            session.SetTotalTrainingEffect(source.SessionMesgs[0].GetTotalTrainingEffect());
-            session.SetTotalWork(source.SessionMesgs[0].GetTotalWork());
-            session.SetTrainingLoadPeak(source.SessionMesgs[0].GetTrainingLoadPeak());
-            session.SetTrainingStressScore(source.SessionMesgs[0].GetTrainingStressScore());
-            session.SetTrigger(source.SessionMesgs[0].GetTrigger());
 
             #endregion Session
 
@@ -174,26 +113,9 @@ internal class EncodeUtility
                 var lapRecords = records.Where(x => startTime.GetDateTime() <= x.GetTimestamp().GetDateTime() && x.GetTimestamp().GetDateTime() <= endTime.GetDateTime());
                 var startDistance = lapRecords.Min(x => x.GetDistance());
                 var endDistance = lapRecords.Max(x => x.GetDistance());
-                var l = new LapMesg
-                {
-                    LocalNum = lap.LocalNum,
-                    Name = lap.Name,
-                    Num = lap.Num
-                };
+                var l = lap;
 
-                l.SetMessageIndex(lap.GetMessageIndex());
-                l.SetEvent(lap.GetEvent());
-                l.SetEventType(lap.GetEventType());
-                l.SetTotalElapsedTime(lap.GetTotalElapsedTime());
-                l.SetTotalTimerTime(lap.GetTotalTimerTime());
-                l.SetTotalCalories(Convert.ToUInt16(lapRecords.Max(x => x.GetCalories())));
-                l.SetAvgHeartRate(lap.GetAvgHeartRate());
-                l.SetMaxHeartRate(lap.GetMaxHeartRate());
-                l.SetIntensity(lap.GetIntensity());
-                l.SetLapTrigger(lap.GetLapTrigger());
-                l.SetSport(lap.GetSport());
-                l.SetSubSport(lap.GetSubSport());
-                l.SetWktStepIndex(lap.GetWktStepIndex());
+                l.SetTotalCalories(Convert.ToUInt16(lapRecords.Max(x => x.GetCalories()) - lapRecords.Min(x => x.GetCalories())));
                 l.SetStartTime(startTime);
                 l.SetTimestamp(endTime);
                 l.SetTotalDistance(endDistance - startDistance);
@@ -215,21 +137,9 @@ internal class EncodeUtility
                 var splitRecords = records.Where(x => startTime.GetDateTime() <= x.GetTimestamp().GetDateTime() && x.GetTimestamp().GetDateTime() <= endTime.GetDateTime());
                 var startDistance = splitRecords.Min(x => x.GetDistance());
                 var endDistance = splitRecords.Max(x => x.GetDistance());
-                var s = new SplitMesg
-                {
-                    LocalNum = split.LocalNum,
-                    Name = split.Name,
-                    Num = split.Num
-                };
-
-                s.SetMessageIndex(split.GetMessageIndex());
-                s.SetSplitType(split.GetSplitType());
-                s.SetTotalElapsedTime(split.GetTotalElapsedTime());
-                s.SetTotalTimerTime(split.GetTotalTimerTime());
+                var s = split;
                 s.SetTotalDistance(endDistance - startDistance);
                 s.SetAvgSpeed(splitRecords.Average(x => x.GetSpeed()));
-                s.SetStartTime(split.GetStartTime());
-                s.SetEndTime(split.GetEndTime());
                 s.SetTotalCalories(splitRecords.Max(x => x.GetCalories()));
                 splits.Add(s);
             }
@@ -241,21 +151,9 @@ internal class EncodeUtility
             {
                 var numSplits = sum.GetNumSplits();
                 var splitsSum = splits.Where(x => splitCounter <= x.GetMessageIndex() && x.GetMessageIndex() <= splitCounter + numSplits - 1);
-                var s = new SplitSummaryMesg
-                {
-                    LocalNum = sum.LocalNum,
-                    Name = sum.Name,
-                    Num = sum.Num
-                };
-
-                s.SetMessageIndex(sum.GetMessageIndex());
-                s.SetSplitType(sum.GetSplitType());
-                s.SetNumSplits(sum.GetNumSplits());
-                s.SetTotalTimerTime(sum.GetTotalTimerTime());
+                var s = sum;
                 s.SetTotalDistance(splitCounter == 0 ? splits.FirstOrDefault(x => x.GetMessageIndex() == splitCounter).GetTotalDistance() : splitsSum.Max(x => x.GetTotalDistance()) - splitsSum.Min(x => x.GetTotalDistance()));
                 s.SetAvgSpeed(splitsSum.Average(x => x.GetAvgSpeed()));
-                s.SetAvgHeartRate(sum.GetAvgHeartRate());
-                s.SetMaxHeartRate(sum.GetMaxHeartRate());
                 s.SetTotalCalories(Convert.ToUInt16(splitsSum.Max(x => x.GetTotalCalories())));
                 splitCounter += Convert.ToInt32(numSplits);
 
@@ -273,23 +171,23 @@ internal class EncodeUtility
             encode.Open(fitDest);
             encode.Write(source.FileIdMesgs);
             encode.Write(source.FileCreatorMesgs);
-            encode.Write(source.DeviceSettingsMesgs);
-            encode.Write(source.UserProfileMesgs);
-            encode.Write(source.TimeInZoneMesgs);
-            encode.Write(source.ZonesTargetMesgs);
-            encode.Write(source.SportMesgs);
-            encode.Write(source.ActivityMesgs);
-            encode.Write(session);
-            encode.Write(laps);
-            encode.Write(records);
             encode.Write(source.EventMesgs);
             encode.Write(source.DeviceInfoMesgs);
+            encode.Write(source.DeviceSettingsMesgs);
+            encode.Write(source.UserProfileMesgs);
+            encode.Write(source.SportMesgs);
+            encode.Write(source.ZonesTargetMesgs);
             encode.Write(source.TrainingFileMesgs);
-            encode.Write(splits);
-            encode.Write(splitsSummary);
-            encode.Write(source.DeveloperDataIdMesgs);
             encode.Write(source.WorkoutMesgs);
             encode.Write(source.WorkoutStepMesgs);
+            encode.Write(records);
+            encode.Write(laps);
+            encode.Write(source.TimeInZoneMesgs);
+            encode.Write(splits);
+            encode.Write(splitsSummary);
+            encode.Write(session);
+            encode.Write(source.ActivityMesgs);
+            //encode.Write(source.DeveloperDataIdMesgs);
 
             // Update header datasize and file CRC
             encode.Close();
@@ -297,15 +195,21 @@ internal class EncodeUtility
 
             _logger.Information($"Encoded FIT file {resultName}");
 
-            var proc = new System.Diagnostics.Process();
-            proc.StartInfo.FileName = "..\\..\\..\\ActivityRepairTool.bat";
-            proc.StartInfo.Arguments = resultName;
-            proc.Start();
+            #region Zip source file
 
-            Thread.Sleep(5000);
+            var zipFile = $"..\\..\\..\\Sources\\{System.DateTime.Now:yyyyMMdd}.zip";
+            System.IO.File.Delete(zipFile);
 
-            System.IO.File.Delete(resultName);
-            System.IO.File.Move($"..\\..\\..\\Results\\{fileName}_repaired.fit", resultName);
+            using ZipArchive newFile = ZipFile.Open(zipFile, ZipArchiveMode.Create);
+            var folder = new DirectoryInfo("..\\..\\..\\Sources\\");
+
+            foreach (string file in GenericUtilities.GetFitFiles())
+            {
+                newFile.CreateEntryFromFile(file, Path.GetRelativePath(folder.FullName, file), CompressionLevel.SmallestSize);
+                System.IO.File.Delete(file);
+            }
+
+            #endregion Zip source file
         }
         catch (Exception e)
         {
