@@ -20,7 +20,6 @@ namespace BrishApp.FitFileMerger
         private static IHost AppStartup()
         {
             var builder = new ConfigurationBuilder();
-
             builder.SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddEnvironmentVariables();
@@ -30,12 +29,10 @@ namespace BrishApp.FitFileMerger
                                     retainedFileCountLimit: 365, retainedFileTimeLimit: new TimeSpan(365, 0, 0, 0))
                             .WriteTo.Console()
                             .CreateLogger();
-
             _logger.Information("Starting application...");
-
             var host = Host.CreateDefaultBuilder()
-                .UseSerilog()
-                .Build();
+                            .UseSerilog()
+                            .Build();
 
             return host;
         }

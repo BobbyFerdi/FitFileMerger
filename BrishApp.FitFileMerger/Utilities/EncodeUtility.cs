@@ -43,7 +43,7 @@ internal class EncodeUtility
                 newRecord.SetPower(power);
                 newRecord.SetResistance(record.RecordMesg.GetResistance());
                 newRecord.SetSpeed(speed);
-                newRecord.SetHeartRate(closestTimestamp?.RecordMesg.GetHeartRate() ?? 0);
+                newRecord.SetHeartRate(record.RecordMesg.GetHeartRate() ?? closestTimestamp?.RecordMesg.GetHeartRate() ?? 0);
                 newRecord.SetTimestamp(record.RecordMesg.GetTimestamp());
                 records.Add(newRecord);
 
@@ -87,7 +87,6 @@ internal class EncodeUtility
             var avgSpeed = Convert.ToSingle(totalSpeed / totalSpeedCount);
             var avgCadence = Math.Ceiling(Convert.ToSingle(totalCadence / totalCadenceCount));
             var session = source.SessionMesgs[0];
-
             session.SetAvgCadence((byte)avgCadence);
             session.SetAvgPower(avgPower);
             session.SetAvgSpeed(avgSpeed);
@@ -114,13 +113,11 @@ internal class EncodeUtility
                 var startDistance = lapRecords.Min(x => x.GetDistance());
                 var endDistance = lapRecords.Max(x => x.GetDistance());
                 var l = lap;
-
                 l.SetTotalCalories(Convert.ToUInt16(lapRecords.Max(x => x.GetCalories()) - lapRecords.Min(x => x.GetCalories())));
                 l.SetStartTime(startTime);
                 l.SetTimestamp(endTime);
                 l.SetTotalDistance(endDistance - startDistance);
                 l.SetEnhancedAvgSpeed(lapRecords.Average(x => x.GetEnhancedSpeed()));
-
                 laps.Add(l);
             }
 
@@ -156,7 +153,6 @@ internal class EncodeUtility
                 s.SetAvgSpeed(splitsSum.Average(x => x.GetAvgSpeed()));
                 s.SetTotalCalories(Convert.ToUInt16(splitsSum.Max(x => x.GetTotalCalories())));
                 splitCounter += Convert.ToInt32(numSplits);
-
                 splitsSummary.Add(s);
             }
 
@@ -191,7 +187,6 @@ internal class EncodeUtility
             // Update header datasize and file CRC
             encode.Close();
             fitDest.Close();
-
             _logger.Information($"Encoded FIT file {resultName}");
 
             #region Zip source file

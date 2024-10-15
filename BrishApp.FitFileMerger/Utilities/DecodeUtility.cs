@@ -40,7 +40,6 @@ internal class DecodeUtility
                 // Attempt to open .FIT file
                 fitSource = new FileStream(file, FileMode.Open);
                 _logger.Information($"Opening {file}");
-
                 var decode = new Decode();
 
                 // Use a FitListener to capture all decoded messages in a FitMessages object
@@ -52,10 +51,8 @@ internal class DecodeUtility
                 decode.MesgEvent += OnMesgCustom;
                 decode.MesgDefinitionEvent += OnMesgDefinitionCustom;
                 decode.DeveloperFieldDescriptionEvent += OnDeveloperFieldDescriptionCustom;
-
                 _logger.Information("Decoding...");
                 decode.Read(fitSource);
-
                 var fitMessages = fitListener.FitMessages;
 
                 if (file.ToLower().Contains("activity"))
@@ -82,17 +79,15 @@ internal class DecodeUtility
 
                 foreach (var record in fitMessages.RecordMesgs)
                 {
-                    var rec = new Record
+                    records.Add(new Record
                     {
                         DateTime = record.GetTimestamp().GetDateTime(),
                         RecordMesg = record
-                    };
-                    records.Add(rec);
+                    });
                 }
 
                 sourceMesgs.RecordMesgs.Add(records);
                 sourceMesgs.SessionMesgs.Add(fitMessages.SessionMesgs[0]);
-
                 _logger.Information($"Decoded FIT file {file}");
             }
         }
