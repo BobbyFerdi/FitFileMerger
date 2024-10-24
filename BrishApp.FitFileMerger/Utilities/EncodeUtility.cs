@@ -20,7 +20,7 @@ internal class EncodeUtility
 
             var records = new List<RecordMesg>();
             ushort maxPower = 0;
-            int totalPower = 0;
+            var totalPower = 0;
             var totalPowerCount = 0;
             float maxSpeed = 0;
             float totalSpeed = 0;
@@ -47,32 +47,31 @@ internal class EncodeUtility
                 newRecord.SetTimestamp(record.RecordMesg.GetTimestamp());
                 records.Add(newRecord);
 
-                if (power != null && power > 0)
+                if (power is > 0)
                 {
                     totalPowerCount++;
 
-                    if (power > maxPower) maxPower = power ?? 0;
+                    if (power > maxPower) maxPower = (ushort)power;
 
                     totalPower += Convert.ToInt32(power);
                 }
 
-                if (speed != null && speed > 0)
+                if (speed is > 0)
                 {
                     totalSpeedCount++;
 
-                    if (speed > maxSpeed) maxSpeed = speed ?? 0;
+                    if (speed > maxSpeed) maxSpeed = (float)speed;
 
                     totalSpeed += speed ?? 0;
                 }
 
-                if (cadence != null && cadence > 0)
-                {
-                    totalCadenceCount++;
+                if (cadence is not > 0) continue;
+                
+                totalCadenceCount++;
 
-                    if (cadence > maxCadence) maxCadence = cadence ?? 0;
+                if (cadence > maxCadence) maxCadence = (int)cadence;
 
-                    totalCadence += cadence ?? 0;
-                }
+                totalCadence += cadence ?? 0;
             }
 
             #endregion Record
@@ -112,13 +111,12 @@ internal class EncodeUtility
                 var lapRecords = records.Where(x => startTime.GetDateTime() <= x.GetTimestamp().GetDateTime() && x.GetTimestamp().GetDateTime() <= endTime.GetDateTime());
                 var startDistance = lapRecords.Min(x => x.GetDistance());
                 var endDistance = lapRecords.Max(x => x.GetDistance());
-                var l = lap;
-                l.SetTotalCalories(Convert.ToUInt16(lapRecords.Max(x => x.GetCalories()) - lapRecords.Min(x => x.GetCalories())));
-                l.SetStartTime(startTime);
-                l.SetTimestamp(endTime);
-                l.SetTotalDistance(endDistance - startDistance);
-                l.SetEnhancedAvgSpeed(lapRecords.Average(x => x.GetEnhancedSpeed()));
-                laps.Add(l);
+                lap.SetTotalCalories(Convert.ToUInt16(lapRecords.Max(x => x.GetCalories()) - lapRecords.Min(x => x.GetCalories())));
+                lap.SetStartTime(startTime);
+                lap.SetTimestamp(endTime);
+                lap.SetTotalDistance(endDistance - startDistance);
+                lap.SetEnhancedAvgSpeed(lapRecords.Average(x => x.GetEnhancedSpeed()));
+                laps.Add(lap);
             }
 
             #endregion Lap
@@ -134,11 +132,10 @@ internal class EncodeUtility
                 var splitRecords = records.Where(x => startTime.GetDateTime() <= x.GetTimestamp().GetDateTime() && x.GetTimestamp().GetDateTime() <= endTime.GetDateTime());
                 var startDistance = splitRecords.Min(x => x.GetDistance());
                 var endDistance = splitRecords.Max(x => x.GetDistance());
-                var s = split;
-                s.SetTotalDistance(endDistance - startDistance);
-                s.SetAvgSpeed(splitRecords.Average(x => x.GetSpeed()));
-                s.SetTotalCalories(splitRecords.Max(x => x.GetCalories()));
-                splits.Add(s);
+                split.SetTotalDistance(endDistance - startDistance);
+                split.SetAvgSpeed(splitRecords.Average(x => x.GetSpeed()));
+                split.SetTotalCalories(splitRecords.Max(x => x.GetCalories()));
+                splits.Add(split);
             }
 
             var splitsSummary = new List<SplitSummaryMesg>();
@@ -148,19 +145,18 @@ internal class EncodeUtility
             {
                 var numSplits = sum.GetNumSplits();
                 var splitsSum = splits.Where(x => splitCounter <= x.GetMessageIndex() && x.GetMessageIndex() <= splitCounter + numSplits - 1);
-                var s = sum;
-                s.SetTotalDistance(splitCounter == 0 ? splits.FirstOrDefault(x => x.GetMessageIndex() == splitCounter).GetTotalDistance() : splitsSum.Max(x => x.GetTotalDistance()) - splitsSum.Min(x => x.GetTotalDistance()));
-                s.SetAvgSpeed(splitsSum.Average(x => x.GetAvgSpeed()));
-                s.SetTotalCalories(Convert.ToUInt16(splitsSum.Max(x => x.GetTotalCalories())));
+                sum.SetTotalDistance(splitCounter == 0 ? splits.FirstOrDefault(x => x.GetMessageIndex() == splitCounter).GetTotalDistance() : splitsSum.Max(x => x.GetTotalDistance()) - splitsSum.Min(x => x.GetTotalDistance()));
+                sum.SetAvgSpeed(splitsSum.Average(x => x.GetAvgSpeed()));
+                sum.SetTotalCalories(Convert.ToUInt16(splitsSum.Max(x => x.GetTotalCalories())));
                 splitCounter += Convert.ToInt32(numSplits);
-                splitsSummary.Add(s);
+                splitsSummary.Add(sum);
             }
 
             #endregion Split
 
             var encode = new Encode(ProtocolVersion.V20);
             var fileName = $"BrishApp.FitFileMerger-{System.DateTime.Now:yyyy-MM-dd~HH.mm.ss.ffff}";
-            var resultName = $"..\\..\\..\\Results\\{fileName}.fit";
+            var resultName = $@"..\..\..\Results\{fileName}.fit";
             var fitDest = new FileStream(resultName, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
 
             // Write our header
@@ -191,13 +187,13 @@ internal class EncodeUtility
 
             #region Zip source file
 
-            var zipFile = $"..\\..\\..\\Sources\\{System.DateTime.Now:yyyyMMdd}.zip";
+            var zipFile = $@"..\..\..\Sources\{System.DateTime.Now:yyyyMMdd}.zip";
             System.IO.File.Delete(zipFile);
 
-            using ZipArchive newFile = ZipFile.Open(zipFile, ZipArchiveMode.Create);
-            var folder = new DirectoryInfo("..\\..\\..\\Sources\\");
+            using var newFile = ZipFile.Open(zipFile, ZipArchiveMode.Create);
+            var folder = new DirectoryInfo(@"..\..\..\Sources\");
 
-            foreach (string file in GenericUtilities.GetFitFiles())
+            foreach (var file in GenericUtilities.GetFitFiles())
             {
                 newFile.CreateEntryFromFile(file, Path.GetRelativePath(folder.FullName, file), CompressionLevel.SmallestSize);
                 System.IO.File.Delete(file);

@@ -2,5 +2,5 @@
 
 internal class GenericUtilities
 {
-    internal static string[] GetFitFiles() => Directory.GetFiles("..\\..\\..\\Sources\\", "*.fit");
+    internal static string[] GetFitFiles() => Directory.GetFiles(@"..\..\..\Sources\", "*.fit");
 }

@@ -20,7 +20,6 @@ internal class DecodeUtility
         try
         {
             var files = GenericUtilities.GetFitFiles();
-            var sessionMesgs = new List<List<SessionMesg>>();
             var orderedFiles = new string[2];
 
             foreach (var file in files)
@@ -75,17 +74,7 @@ internal class DecodeUtility
                     sourceMesgs.WorkoutStepMesgs.AddRange(fitMessages.WorkoutStepMesgs.ToList());
                 }
 
-                var records = new List<Record>();
-
-                foreach (var record in fitMessages.RecordMesgs)
-                {
-                    records.Add(new Record
-                    {
-                        DateTime = record.GetTimestamp().GetDateTime(),
-                        RecordMesg = record
-                    });
-                }
-
+                var records = fitMessages.RecordMesgs.Select(record => new Record { DateTime = record.GetTimestamp().GetDateTime(), RecordMesg = record }).ToList();
                 sourceMesgs.RecordMesgs.Add(records);
                 sourceMesgs.SessionMesgs.Add(fitMessages.SessionMesgs[0]);
                 _logger.Information($"Decoded FIT file {file}");
