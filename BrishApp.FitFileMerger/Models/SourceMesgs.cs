@@ -6,24 +6,24 @@ internal class SourceMesgs
 {
     public SourceMesgs()
     {
-        FileIdMesgs = new List<FileIdMesg>();
-        FileCreatorMesgs = new List<FileCreatorMesg>();
-        DeviceSettingsMesgs = new List<DeviceSettingsMesg>();
-        UserProfileMesgs = new List<UserProfileMesg>();
-        TimeInZoneMesgs = new List<TimeInZoneMesg>();
-        ZonesTargetMesgs = new List<ZonesTargetMesg>();
-        SportMesgs = new List<SportMesg>();
-        ActivityMesgs = new List<ActivityMesg>();
-        SessionMesgs = new List<SessionMesg>();
-        LapMesgs = new List<LapMesg>();
-        RecordMesgs = new List<List<Record>>();
-        EventMesgs = new List<EventMesg>();
-        DeviceInfoMesgs = new List<DeviceInfoMesg>();
-        TrainingFileMesgs = new List<TrainingFileMesg>();
-        SplitMesgs = new List<SplitMesg>();
-        SplitSummaryMesgs = new List<SplitSummaryMesg>();
-        WorkoutMesgs = new List<WorkoutMesg>();
-        WorkoutStepMesgs = new List<WorkoutStepMesg>();
+        FileIdMesgs = [];
+        FileCreatorMesgs = [];
+        DeviceSettingsMesgs = [];
+        UserProfileMesgs = [];
+        TimeInZoneMesgs = [];
+        ZonesTargetMesgs = [];
+        SportMesgs = [];
+        ActivityMesgs = [];
+        SessionMesgs = [];
+        LapMesgs = [];
+        RecordMesgs = [];
+        EventMesgs = [];
+        DeviceInfoMesgs = [];
+        TrainingFileMesgs = [];
+        SplitMesgs = [];
+        SplitSummaryMesgs = [];
+        WorkoutMesgs = [];
+        WorkoutStepMesgs = [];
     }
 
     public List<FileIdMesg> FileIdMesgs { get; set; }

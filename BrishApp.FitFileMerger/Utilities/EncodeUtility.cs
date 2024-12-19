@@ -7,9 +7,9 @@ namespace BrishApp.FitFileMerger.Utilities;
 
 internal class EncodeUtility
 {
-    private readonly ILogger _logger;
+    private readonly ILogger? _logger;
 
-    public EncodeUtility(ILogger logger) => _logger = logger;
+    public EncodeUtility(ILogger? logger) => _logger = logger;
 
     internal void EncodeActivityFile(SourceMesgs source)
     {
@@ -62,7 +62,7 @@ internal class EncodeUtility
 
                     if (speed > maxSpeed) maxSpeed = (float)speed;
 
-                    totalSpeed += speed ?? 0;
+                    totalSpeed += (float)speed;
                 }
 
                 if (cadence is not > 0) continue;
@@ -71,7 +71,7 @@ internal class EncodeUtility
 
                 if (cadence > maxCadence) maxCadence = (int)cadence;
 
-                totalCadence += cadence ?? 0;
+                totalCadence += (int)cadence;
             }
 
             #endregion Record

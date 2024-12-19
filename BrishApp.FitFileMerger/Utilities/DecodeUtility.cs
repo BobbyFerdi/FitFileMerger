@@ -6,9 +6,9 @@ namespace BrishApp.FitFileMerger.Utilities;
 
 internal class DecodeUtility
 {
-    public DecodeUtility(ILogger logger) => _logger = logger;
+    public DecodeUtility(ILogger? logger) => _logger = logger;
 
-    private readonly ILogger _logger;
+    private readonly ILogger? _logger;
 
     internal SourceMesgs ProcessFiles()
     {
@@ -102,7 +102,7 @@ internal class DecodeUtility
         _logger.Information($"\tIt has {e.mesgDef.NumFields} fields {e.mesgDef.NumDevFields} developer fields and is {e.mesgDef.GetMesgSize()} bytes long");
     }
 
-    private void OnMesgCustom(object sender, MesgEventArgs e)
+    private static void OnMesgCustom(object sender, MesgEventArgs e)
     {
     }
 

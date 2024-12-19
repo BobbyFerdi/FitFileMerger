@@ -8,7 +8,7 @@ namespace BrishApp.FitFileMerger;
 
 internal class Program
 {
-    private static ILogger _logger;
+    private static Serilog.Core.Logger _logger;
 
     private static void Main(string[] args)
     {
